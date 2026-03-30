@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prestige Realty — Premium Properties</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #B8955A;
+  --gold-light: #D4AF7A;
+  --gold-pale: #F5EDD8;
+  --white: #FFFFFF;
+  --off-white: #FAFAF8;
+  --cream: #F4F0E8;
+  --light-gray: #F0EDE8;
+  --border: #E8E2D8;
+  --text-dark: #1A1A1A;
+  --text-mid: #4A4540;
+  --text-muted: #9A9490;
+  --shadow-sm: 0 2px 20px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 40px rgba(0,0,0,0.1);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--white);color:var(--text-dark);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* ════════════════════════════════
+   PAGE SYSTEM
+════════════════════════════════ */
+.page{display:none;animation:pageFade 0.5s ease both;}
+.page.active{display:block;}
+@keyframes pageFade{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(255,255,255,0.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 56px;
+  height:72px;
+  box-shadow:var(--shadow-sm);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:20px;font-weight:700;letter-spacing:1px;
+  color:var(--text-dark);text-decoration:none;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:4px;list-style:none;}
+.nav-links button{
+  background:none;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:13px;font-weight:400;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-mid);padding:8px 16px;
+  border-radius:2px;transition:all 0.25s;
+}
+.nav-links button:hover,.nav-links button.active{color:var(--gold);}
+.nav-links button.active{border-bottom:2px solid var(--gold);}
+.nav-cta{
+  background:var(--gold);color:var(--white);
+  border:none;padding:11px 28px;
+  font-family:'Jost',sans-serif;font-size:12px;
+  letter-spacing:2px;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:all 0.3s;
+}
+.nav-cta:hover{background:var(--gold-light);box-shadow:0 6px 24px rgba(184,149,90,0.35);}
+
+/* ════════════════════════════════
+   SHARED UTILS
+════════════════════════════════ */
+.container{max-width:1280px;margin:0 auto;padding:0 56px;}
+.section-eyebrow{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin-bottom:16px;
+}
+.section-eyebrow::before{content:'';width:32px;height:1px;background:var(--gold);}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,3.5vw,52px);font-weight:600;
+  line-height:1.12;color:var(--text-dark);margin-bottom:20px;
+}
+.section-title em{font-style:italic;color:var(--gold);}
+.section-body{font-size:15px;line-height:1.9;color:var(--text-mid);max-width:540px;}
+.btn-gold{
+  display:inline-block;background:var(--gold);color:var(--white);
+  padding:14px 36px;font-size:12px;letter-spacing:2.5px;
+  text-transform:uppercase;font-weight:500;border:none;cursor:pointer;
+  text-decoration:none;transition:all 0.3s;
+}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 28px rgba(184,149,90,0.3);}
+.btn-outline-gold{
+  display:inline-block;background:transparent;color:var(--gold);
+  padding:13px 36px;font-size:12px;letter-spacing:2.5px;
+  text-transform:uppercase;font-weight:500;
+  border:1.5px solid var(--gold);cursor:pointer;
+  text-decoration:none;transition:all 0.3s;
+}
+.btn-outline-gold:hover{background:var(--gold);color:var(--white);}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1),transform 0.75s cubic-bezier(0.16,1,0.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}.d4{transition-delay:0.4s;}
+
+/* ════════════════════════════════
+   ██ HOME PAGE
+════════════════════════════════ */
+/* Hero */
+.hero{
+  position:relative;height:100vh;min-height:680px;
+  display:flex;align-items:center;overflow:hidden;
+  margin-top:72px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1800&q=85') center/cover no-repeat;
+  animation:heroZoom 14s ease-in-out infinite alternate;
+}
+@keyframes heroZoom{from{transform:scale(1);}to{transform:scale(1.05);}}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(105deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.88) 40%, rgba(255,255,255,0.2) 100%);
+}
+.hero-content{position:relative;z-index:2;padding:0 56px;max-width:660px;}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold-pale);border:1px solid rgba(184,149,90,0.3);
+  padding:7px 18px;font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:32px;
+  animation:fadeUp 0.9s ease 0.2s both;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,5.5vw,80px);font-weight:700;
+  line-height:1.05;color:var(--text-dark);margin-bottom:24px;
+  animation:fadeUp 0.9s ease 0.35s both;
+}
+.hero h1 em{font-style:italic;color:var(--gold);}
+.hero-sub{
+  font-size:16px;line-height:1.85;color:var(--text-mid);
+  margin-bottom:44px;max-width:480px;
+  animation:fadeUp 0.9s ease 0.5s both;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp 0.9s ease 0.65s both;}
+.hero-stats{
+  position:absolute;bottom:40px;left:56px;right:56px;z-index:2;
+  display:flex;gap:2px;
+  animation:fadeUp 0.9s ease 0.85s both;
+}
+.hero-stat{
+  flex:1;background:rgba(255,255,255,0.95);
+  border:1px solid var(--border);padding:20px 24px;
+  border-top:3px solid var(--gold);
+}
+.hero-stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:700;color:var(--gold);display:block;
+}
+.hero-stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
+
+/* Search Bar */
+.search-bar{
+  background:var(--white);border:1px solid var(--border);
+  box-shadow:var(--shadow-md);
+  display:flex;align-items:stretch;
+  margin:0 56px;
+  position:relative;z-index:5;
+  margin-top:-30px;
+}
+.search-field{
+  flex:1;padding:18px 24px;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;gap:4px;
+}
+.search-field label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
+.search-field select,.search-field input{
+  border:none;outline:none;font-family:'Jost',sans-serif;
+  font-size:14px;color:var(--text-dark);background:none;
+}
+.search-field select option{color:var(--text-dark);}
+.search-btn{
+  background:var(--gold);border:none;padding:0 36px;
+  color:var(--white);font-family:'Jost',sans-serif;
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:background 0.3s;white-space:nowrap;
+}
+.search-btn:hover{background:var(--gold-light);}
+
+/* Featured Listings */
+.listings-section{padding:100px 0;background:var(--off-white);}
+.listings-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:52px;
+}
+.listings-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:2px;
+}
+.lcard{position:relative;overflow:hidden;cursor:pointer;background:#f0ede8;}
+.lcard:first-child{grid-row:span 2;}
+.limg{
+  width:100%;display:block;
+  aspect-ratio:4/3;object-fit:cover;
+  transition:transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.lcard:first-child .limg{aspect-ratio:unset;height:100%;min-height:560px;}
+.lcard:hover .limg{transform:scale(1.07);}
+.loverlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(15,12,8,0.88) 0%,rgba(15,12,8,0) 55%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:26px;
+}
+.ltag{
+  position:absolute;top:18px;left:18px;
+  background:var(--gold);color:var(--white);
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;font-weight:600;
+}
+.ltag.new{background:#2D7D46;}
+.ltag.prime{background:var(--text-dark);}
+.ltitle{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:4px;}
+.lloc{font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:12px;letter-spacing:1px;}
+.lprice{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light);}
+.lmeta{display:flex;gap:16px;margin-top:8px;}
+.lmeta span{font-size:11px;color:rgba(255,255,255,0.55);}
+
+/* Services Preview (Home) */
+.services-preview{padding:100px 0;background:var(--white);}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px;}
+.srv-card{
+  background:var(--off-white);padding:48px 36px;
+  border:1px solid var(--border);
+  transition:all 0.35s;cursor:pointer;position:relative;overflow:hidden;
+}
+.srv-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:var(--gold);transform:scaleX(0);transition:transform 0.35s;
+}
+.srv-card:hover{background:var(--white);box-shadow:var(--shadow-md);transform:translateY(-4px);}
+.srv-card:hover::before{transform:scaleX(1);}
+.srv-icon{font-size:36px;margin-bottom:20px;display:block;}
+.srv-title{
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:600;margin-bottom:12px;
+}
+.srv-desc{font-size:14px;line-height:1.8;color:var(--text-mid);margin-bottom:20px;}
+.srv-link{
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);font-weight:500;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:gap 0.3s;
+}
+.srv-card:hover .srv-link{gap:14px;}
+
+/* Why Choose Us */
+.why-section{padding:100px 0;background:var(--cream);}
+.why-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.why-images{position:relative;}
+.why-img-main{
+  width:80%;aspect-ratio:4/5;object-fit:cover;
+  box-shadow:var(--shadow-lg);
+}
+.why-img-accent{
+  position:absolute;right:-10px;bottom:-40px;
+  width:55%;aspect-ratio:1/1;object-fit:cover;
+  border:6px solid var(--white);
+  box-shadow:var(--shadow-md);
+}
+.why-badge{
+  position:absolute;top:40px;right:-20px;
+  background:var(--gold);width:110px;height:110px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 8px 32px rgba(184,149,90,0.4);
+}
+.why-badge-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#fff;line-height:1;}
+.why-badge-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.85);}
+.features{margin-top:44px;display:flex;flex-direction:column;gap:24px;}
+.feat{display:flex;align-items:flex-start;gap:18px;}
+.feat-ico{
+  width:46px;height:46px;flex-shrink:0;
+  background:var(--white);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  box-shadow:var(--shadow-sm);
+}
+.feat-title{font-size:15px;font-weight:600;margin-bottom:4px;color:var(--text-dark);}
+.feat-desc{font-size:13px;color:var(--text-muted);line-height:1.7;}
+
+/* Testimonials */
+.testi-section{padding:100px 0;background:var(--text-dark);}
+.testi-section .section-eyebrow{color:var(--gold-light);}
+.testi-section .section-eyebrow::before{background:var(--gold-light);}
+.testi-section .section-title{color:var(--white);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;}
+.tcard{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  padding:40px 32px;transition:all 0.35s;
+}
+.tcard:hover{background:rgba(255,255,255,0.07);border-color:rgba(184,149,90,0.4);transform:translateY(-4px);}
+.tstars{color:var(--gold);font-size:14px;letter-spacing:3px;margin-bottom:20px;}
+.ttext{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:17px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:28px;
+}
+.tauthor{display:flex;align-items:center;gap:14px;}
+.tavatar{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid rgba(184,149,90,0.4);}
+.tname{font-size:14px;font-weight:500;color:#fff;}
+.trole{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;}
+
+/* CTA Banner */
+.cta-banner{
+  padding:90px 56px;
+  background:linear-gradient(135deg, var(--gold) 0%, #A07840 100%);
+  display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;
+}
+.cta-banner h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,3vw,44px);font-weight:700;
+  color:#fff;max-width:580px;
+}
+.cta-banner h2 em{font-style:italic;opacity:0.85;}
+.btn-white{
+  display:inline-block;background:#fff;color:var(--gold);
+  padding:16px 44px;font-size:12px;letter-spacing:2.5px;
+  text-transform:uppercase;font-weight:600;border:none;cursor:pointer;
+  text-decoration:none;transition:all 0.3s;white-space:nowrap;
+}
+.btn-white:hover{background:var(--gold-pale);box-shadow:0 8px 32px rgba(0,0,0,0.15);}
+
+/* ════════════════════════════════
+   ██ SERVICES PAGE
+════════════════════════════════ */
+.page-hero{
+  margin-top:72px;
+  position:relative;height:420px;overflow:hidden;
+  display:flex;align-items:center;
+}
+.page-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.page-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(255,255,255,0.97) 0%,rgba(255,255,255,0.75) 50%,rgba(255,255,255,0.1) 100%);
+}
+.page-hero-content{position:relative;z-index:2;padding:0 56px;}
+.page-breadcrumb{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;letter-spacing:1px;color:var(--text-muted);margin-bottom:16px;
+}
+.page-breadcrumb button{background:none;border:none;cursor:pointer;color:var(--gold);font-size:12px;font-family:'Jost',sans-serif;}
+
+/* Service Detail Cards */
+.service-cards-section{padding:90px 0;background:var(--off-white);}
+.svc-big-card{
+  background:var(--white);border:1px solid var(--border);
+  display:grid;grid-template-columns:1fr 1fr;
+  overflow:hidden;margin-bottom:3px;
+  transition:box-shadow 0.3s;
+}
+.svc-big-card:hover{box-shadow:var(--shadow-md);}
+.svc-big-card.reverse{direction:rtl;}
+.svc-big-card.reverse > *{direction:ltr;}
+.svc-big-img{width:100%;height:340px;object-fit:cover;display:block;}
+.svc-big-body{padding:52px 48px;display:flex;flex-direction:column;justify-content:center;}
+.svc-big-icon{font-size:40px;margin-bottom:20px;}
+.svc-big-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;margin-bottom:14px;}
+.svc-big-desc{font-size:14px;line-height:1.9;color:var(--text-mid);margin-bottom:28px;}
+.svc-bullets{list-style:none;margin-bottom:32px;display:flex;flex-direction:column;gap:10px;}
+.svc-bullets li{
+  font-size:13px;color:var(--text-mid);
+  display:flex;align-items:flex-start;gap:10px;
+}
+.svc-bullets li::before{
+  content:'—';color:var(--gold);font-weight:700;flex-shrink:0;
+}
+
+/* Process Section */
+.process-section{padding:90px 0;background:var(--white);}
+.process-steps{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:60px;
+  position:relative;
+}
+.process-steps::before{
+  content:'';position:absolute;top:30px;left:10%;right:10%;height:1px;
+  background:var(--border);z-index:0;
+}
+.pstep{position:relative;z-index:1;text-align:center;padding:0 16px;}
+.pstep-num{
+  width:60px;height:60px;border-radius:50%;
+  background:var(--white);border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);
+  margin:0 auto 20px;
+}
+.pstep-title{font-size:14px;font-weight:600;margin-bottom:8px;}
+.pstep-desc{font-size:12px;color:var(--text-muted);line-height:1.7;}
+
+/* Pricing Cards */
+.pricing-section{padding:90px 0;background:var(--cream);}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;}
+.pcard{
+  background:var(--white);border:1px solid var(--border);
+  padding:44px 36px;text-align:center;position:relative;
+  transition:all 0.35s;
+}
+.pcard.featured{
+  background:var(--text-dark);border-color:var(--gold);
+  transform:scale(1.04);
+}
+.pcard:not(.featured):hover{box-shadow:var(--shadow-md);transform:translateY(-6px);}
+.pcard-badge{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:#fff;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 18px;
+  white-space:nowrap;
+}
+.pcard-icon{font-size:36px;margin-bottom:16px;}
+.pcard-title{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:600;
+  margin-bottom:8px;
+}
+.pcard.featured .pcard-title{color:#fff;}
+.pcard-price{
+  font-family:'Playfair Display',serif;font-size:36px;font-weight:700;
+  color:var(--gold);margin:16px 0 24px;
+}
+.pcard.featured .pcard-price{color:var(--gold-light);}
+.pcard-price span{font-size:14px;font-weight:400;color:var(--text-muted);font-family:'Jost',sans-serif;}
+.pcard.featured .pcard-price span{color:rgba(255,255,255,0.4);}
+.pcard-features{list-style:none;text-align:left;margin-bottom:36px;display:flex;flex-direction:column;gap:12px;}
+.pcard-features li{font-size:13px;display:flex;align-items:center;gap:10px;}
+.pcard.featured .pcard-features li{color:rgba(255,255,255,0.8);}
+.check{color:var(--gold);font-weight:700;}
+
+/* ════════════════════════════════
+   ██ LISTINGS PAGE
+════════════════════════════════ */
+.listings-page{padding:80px 0;background:var(--off-white);}
+.listings-filter{
+  background:var(--white);border:1px solid var(--border);
+  padding:24px 36px;
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  margin-bottom:40px;box-shadow:var(--shadow-sm);
+}
+.filter-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
+.filter-tabs{display:flex;gap:4px;}
+.ftab{
+  background:none;border:1px solid var(--border);
+  padding:8px 18px;font-family:'Jost',sans-serif;font-size:12px;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+  transition:all 0.2s;color:var(--text-mid);
+}
+.ftab.active,.ftab:hover{background:var(--gold);border-color:var(--gold);color:#fff;}
+.listings-full-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.lcard-full{background:var(--white);border:1px solid var(--border);overflow:hidden;transition:all 0.35s;cursor:pointer;}
+.lcard-full:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);}
+.lcard-img-wrap{position:relative;overflow:hidden;}
+.lcard-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform 0.6s ease;}
+.lcard-full:hover .lcard-img{transform:scale(1.06);}
+.lcard-tag{
+  position:absolute;top:16px;left:16px;
+  background:var(--gold);color:#fff;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;
+}
+.lcard-tag.rent{background:#2D7D46;}
+.lcard-tag.new{background:#1A6BAA;}
+.lcard-body{padding:24px;}
+.lcard-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin-bottom:4px;}
+.lcard-loc{font-size:12px;color:var(--text-muted);margin-bottom:14px;letter-spacing:1px;}
+.lcard-price{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);}
+.lcard-meta{display:flex;gap:16px;margin-top:10px;padding-top:14px;border-top:1px solid var(--border);}
+.lcard-meta span{font-size:12px;color:var(--text-muted);}
+
+/* ════════════════════════════════
+   ██ ABOUT PAGE
+════════════════════════════════ */
+.about-story{padding:90px 0;background:var(--white);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-imgs{position:relative;}
+.about-img-main{width:82%;aspect-ratio:3/4;object-fit:cover;box-shadow:var(--shadow-lg);}
+.about-img-sm{
+  position:absolute;right:0;bottom:-40px;
+  width:52%;aspect-ratio:1;object-fit:cover;
+  border:6px solid #fff;box-shadow:var(--shadow-md);
+}
+.about-quote{
+  margin-top:36px;
+  border-left:3px solid var(--gold);padding-left:24px;
+}
+.about-quote p{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:18px;color:var(--text-mid);line-height:1.7;
+}
+.about-quote cite{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:12px;display:block;}
+.team-section{padding:90px 0;background:var(--cream);}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:60px;}
+.team-card{background:var(--white);overflow:hidden;border:1px solid var(--border);transition:all 0.3s;}
+.team-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);}
+.team-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;}
+.team-body{padding:20px;}
+.team-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;}
+.team-role{font-size:12px;color:var(--gold);letter-spacing:1px;margin-top:2px;}
+.team-desc{font-size:12px;color:var(--text-muted);line-height:1.7;margin-top:8px;}
+.awards-section{padding:90px 0;background:var(--white);}
+.awards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:60px;}
+.award-card{
+  background:var(--off-white);padding:36px;text-align:center;
+  border:1px solid var(--border);transition:all 0.3s;
+}
+.award-card:hover{background:var(--white);box-shadow:var(--shadow-sm);}
+.award-year{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--gold);}
+.award-title{font-size:14px;font-weight:600;margin:8px 0 4px;}
+.award-org{font-size:12px;color:var(--text-muted);}
+
+/* ════════════════════════════════
+   ██ CONTACT PAGE
+════════════════════════════════ */
+.contact-page{padding:90px 0;background:var(--off-white);}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:start;}
+.contact-info{}
+.contact-info-item{
+  display:flex;gap:18px;align-items:flex-start;
+  padding:28px 0;border-bottom:1px solid var(--border);
+}
+.contact-info-icon{
+  width:48px;height:48px;flex-shrink:0;
+  background:var(--gold-pale);border:1px solid rgba(184,149,90,0.25);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.contact-info-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.contact-info-value{font-size:15px;color:var(--text-dark);}
+.contact-form-card{
+  background:var(--white);border:1px solid var(--border);
+  padding:52px;box-shadow:var(--shadow-sm);
+}
+.contact-form-card h3{
+  font-family:'Playfair Display',serif;font-size:28px;font-weight:600;
+  margin-bottom:6px;
+}
+.contact-form-card p{font-size:14px;color:var(--text-muted);margin-bottom:36px;}
+.form-group{margin-bottom:20px;}
+.form-group label{
+  display:block;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;
+}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;border:1px solid var(--border);background:var(--off-white);
+  padding:14px 16px;font-family:'Jost',sans-serif;font-size:14px;
+  color:var(--text-dark);outline:none;transition:border-color 0.3s;resize:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-muted);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-submit{
+  width:100%;background:var(--gold);color:#fff;border:none;
+  padding:16px;font-family:'Jost',sans-serif;font-size:12px;
+  letter-spacing:3px;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:all 0.3s;margin-top:8px;
+}
+.form-submit:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 28px rgba(184,149,90,0.35);}
+.map-section{
+  background:var(--text-dark);height:360px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:22px;
+  color:rgba(255,255,255,0.2);font-style:italic;position:relative;overflow:hidden;
+}
+.map-section img{width:100%;height:100%;object-fit:cover;opacity:0.2;}
+.map-pin{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
+  background:var(--gold);color:#fff;
+  font-family:'Jost',sans-serif;font-size:13px;letter-spacing:1px;
+  padding:12px 24px;font-weight:500;
+}
+.map-pin::after{
+  content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
+  border:10px solid transparent;border-top:10px solid var(--gold);
+}
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer{background:#111;padding:72px 0 32px;}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px;}
+.footer-logo-text{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;}
+.footer-logo-text span{color:var(--gold);}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,0.35);line-height:1.8;margin-top:12px;max-width:280px;}
+.footer-col h4{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col ul li button,.footer-col ul li a{
+  background:none;border:none;font-family:'Jost',sans-serif;
+  font-size:13px;color:rgba(255,255,255,0.45);
+  text-decoration:none;cursor:pointer;transition:color 0.2s;
+  text-align:left;
+}
+.footer-col ul li button:hover,.footer-col ul li a:hover{color:var(--gold);}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:24px;border-top:1px solid rgba(255,255,255,0.07);flex-wrap:wrap;gap:12px;
+}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,0.25);}
+.socials{display:flex;gap:10px;}
+.social-btn{
+  width:36px;height:36px;border:1px solid rgba(255,255,255,0.12);
+  background:none;color:rgba(255,255,255,0.45);font-size:13px;
+  cursor:pointer;transition:all 0.2s;font-family:'Jost',sans-serif;
+}
+.social-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ════════════════════════════════
+   ANIMATIONS
+════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media(max-width:1024px){
+  .container{padding:0 32px;}
+  .listings-grid{grid-template-columns:1fr 1fr;}
+  .lcard:first-child{grid-row:span 1;}
+  .lcard:first-child .limg{min-height:unset;}
+  .why-inner{grid-template-columns:1fr;gap:48px;}
+  .about-grid{grid-template-columns:1fr;gap:48px;}
+  .team-grid{grid-template-columns:repeat(2,1fr);}
+  .awards-grid{grid-template-columns:repeat(2,1fr);}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:40px;}
+  .svc-big-card,.svc-big-card.reverse{grid-template-columns:1fr;direction:ltr;}
+  .svc-big-card.reverse .svc-big-img{order:-1;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .pcard.featured{transform:none;}
+  .process-steps{grid-template-columns:1fr;gap:24px;}
+  .process-steps::before{display:none;}
+}
+@media(max-width:768px){
+  nav{padding:0 24px;}
+  .nav-links{display:none;}
+  .hero-content,.search-bar,.cta-banner{margin-left:24px;margin-right:24px;padding-left:24px;padding-right:24px;}
+  .hero-stats{left:24px;right:24px;flex-wrap:wrap;}
+  .hero-stats .hero-stat{flex:1 1 40%;}
+  .container{padding:0 24px;}
+  .listings-grid,.listings-full-grid,.testi-grid,.srv-grid,.team-grid,.awards-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .search-bar{flex-direction:column;}
+  .search-field{border-right:none;border-bottom:1px solid var(--border);}
+  .page-hero-content{padding:0 24px;}
+  .svc-big-img{height:220px;}
+  .svc-big-body{padding:32px 24px;}
+  .contact-form-card{padding:32px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <a class="nav-logo" href="#" onclick="showPage('home')">Prestige <span>Realty</span></a>
+  <ul class="nav-links">
+    <li><button onclick="showPage('home')" id="nav-home" class="active">Home</button></li>
+    <li><button onclick="showPage('services')" id="nav-services">Services</button></li>
+    <li><button onclick="showPage('listings')" id="nav-listings">Listings</button></li>
+    <li><button onclick="showPage('about')" id="nav-about">About</button></li>
+    <li><button onclick="showPage('contact')" id="nav-contact">Contact</button></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Book Consultation</button>
+</nav>
+
+<!-- ══════════════════════════════════════
+     ██ PAGE: HOME
+══════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content" style="padding-left:56px;padding-right:56px;">
+      <div class="hero-pill">🏆 Bengaluru's #1 Luxury Realty</div>
+      <h1>Find Your<br><em>Perfect Home</em><br>In The City</h1>
+      <p class="hero-sub">We match discerning buyers and investors with Bengaluru's finest properties — with trust, speed, and zero hassle.</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="showPage('listings')">Explore Listings</button>
+        <button class="btn-outline-gold" onclick="showPage('contact')">Free Valuation</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">1,240+</span>
+        <span class="hero-stat-label">Properties Sold</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">₹2.4B</span>
+        <span class="hero-stat-label">Total Portfolio</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">98%</span>
+        <span class="hero-stat-label">Satisfaction Rate</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">12 Yrs</span>
+        <span class="hero-stat-label">Market Excellence</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar" style="margin:0 56px;margin-top:-30px;position:relative;z-index:5;">
+    <div class="search-field">
+      <label>Property Type</label>
+      <select>
+        <option>All Types</option>
+        <option>Apartment</option>
+        <option>Villa</option>
+        <option>Penthouse</option>
+        <option>Commercial</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Location</label>
+      <select>
+        <option>All Areas</option>
+        <option>Whitefield</option>
+        <option>Indiranagar</option>
+        <option>Koramangala</option>
+        <option>HSR Layout</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Budget</label>
+      <select>
+        <option>Any Budget</option>
+        <option>Under ₹1 Cr</option>
+        <option>₹1 – 2 Cr</option>
+        <option>₹2 – 4 Cr</option>
+        <option>Above ₹4 Cr</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Bedrooms</label>
+      <select>
+        <option>Any</option>
+        <option>1 BHK</option>
+        <option>2 BHK</option>
+        <option>3 BHK</option>
+        <option>4+ BHK</option>
+      </select>
+    </div>
+    <button class="search-btn" onclick="showPage('listings')">🔍 Search Properties</button>
+  </div>
+
+  <!-- Featured Listings -->
+  <section class="listings-section">
+    <div class="container">
+      <div class="listings-header">
+        <div>
+          <span class="section-eyebrow reveal">Featured Properties</span>
+          <h2 class="section-title reveal d1">Handpicked for the <em>Discerning Buyer</em></h2>
+        </div>
+        <button class="btn-outline-gold reveal" onclick="showPage('listings')">View All →</button>
+      </div>
+      <div class="listings-grid reveal">
+        <div class="lcard">
+          <img class="limg" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80" alt="Villa">
+          <div class="loverlay">
+            <span class="ltag">Featured</span>
+            <div>
+              <div class="ltitle">Whitefield Grand Villa</div>
+              <div class="lloc">📍 Whitefield, Bengaluru</div>
+              <div class="lprice">₹4.2 Cr</div>
+              <div class="lmeta"><span>🛏 5 Beds</span><span>🛁 4 Baths</span><span>📐 4,800 sqft</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="lcard">
+          <img class="limg" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80" alt="Apartment">
+          <div class="loverlay">
+            <span class="ltag new">New</span>
+            <div>
+              <div class="ltitle">Indiranagar Sky Apartment</div>
+              <div class="lloc">📍 Indiranagar</div>
+              <div class="lprice">₹1.8 Cr</div>
+              <div class="lmeta"><span>🛏 3 Beds</span><span>📐 2,100 sqft</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="lcard">
+          <img class="limg" src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=700&q=80" alt="Penthouse">
+          <div class="loverlay">
+            <span class="ltag prime">Prime</span>
+            <div>
+              <div class="ltitle">Koramangala Penthouse</div>
+              <div class="lloc">📍 Koramangala</div>
+              <div class="lprice">₹3.6 Cr</div>
+              <div class="lmeta"><span>🛏 4 Beds</span><span>📐 3,400 sqft</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="lcard">
+          <img class="limg" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80" alt="Bungalow">
+          <div class="loverlay">
+            <div>
+              <div class="ltitle">Sarjapur Luxury Bungalow</div>
+              <div class="lloc">📍 Sarjapur Road</div>
+              <div class="lprice">₹2.9 Cr</div>
+              <div class="lmeta"><span>🛏 4 Beds</span><span>📐 3,200 sqft</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Preview -->
+  <section class="services-preview">
+    <div class="container">
+      <div style="text-align:center;max-width:600px;margin:0 auto 0;">
+        <span class="section-eyebrow reveal" style="justify-content:center;">What We Offer</span>
+        <h2 class="section-title reveal d1">Complete Real Estate <em>Solutions</em></h2>
+        <p class="section-body reveal d2" style="margin:0 auto;">From finding your dream home to managing your investment portfolio — we do it all under one roof.</p>
+      </div>
+      <div class="srv-grid">
+        <div class="srv-card reveal" onclick="showPage('services')">
+          <span class="srv-icon">🏠</span>
+          <div class="srv-title">Residential Sales</div>
+          <p class="srv-desc">Buy or sell residential properties with expert guidance, full legal support, and market-best pricing.</p>
+          <span class="srv-link">Learn More →</span>
+        </div>
+        <div class="srv-card reveal d1" onclick="showPage('services')">
+          <span class="srv-icon">🏢</span>
+          <div class="srv-title">Commercial Leasing</div>
+          <p class="srv-desc">Premium office spaces, retail units, and warehouses across Bengaluru's top business districts.</p>
+          <span class="srv-link">Learn More →</span>
+        </div>
+        <div class="srv-card reveal d2" onclick="showPage('services')">
+          <span class="srv-icon">📈</span>
+          <div class="srv-title">Investment Advisory</div>
+          <p class="srv-desc">Data-driven investment strategies, ROI analysis, and portfolio management for serious investors.</p>
+          <span class="srv-link">Learn More →</span>
+        </div>
+        <div class="srv-card reveal d1" onclick="showPage('services')">
+          <span class="srv-icon">🔑</span>
+          <div class="srv-title">Property Management</div>
+          <p class="srv-desc">End-to-end management of your rental property — tenants, maintenance, and monthly reporting.</p>
+          <span class="srv-link">Learn More →</span>
+        </div>
+        <div class="srv-card reveal d2" onclick="showPage('services')">
+          <span class="srv-icon">⚖️</span>
+          <div class="srv-title">Legal & Documentation</div>
+          <p class="srv-desc">Verified title deeds, encumbrance checks, registration assistance, and full legal due diligence.</p>
+          <span class="srv-link">Learn More →</span>
+        </div>
+        <div class="srv-card reveal d3" onclick="showPage('services')">
+          <span class="srv-icon">🏗️</span>
+          <div class="srv-title">New Developments</div>
+          <p class="srv-desc">Exclusive launches from Bengaluru's top builders — pre-launch pricing with verified RERA compliance.</p>
+          <span class="srv-link">Learn More →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Us -->
+  <section class="why-section">
+    <div class="container">
+      <div class="why-inner">
+        <div class="why-images reveal">
+          <img class="why-img-main" src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=700&q=80" alt="Our Team">
+          <img class="why-img-accent" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80" alt="Interior">
+          <div class="why-badge"><span class="why-badge-num">#1</span><span class="why-badge-lbl">In City</span></div>
+        </div>
+        <div>
+          <span class="section-eyebrow reveal">Why Choose Us</span>
+          <h2 class="section-title reveal d1">Where <em>Trust</em> Meets<br>Exceptional Results</h2>
+          <p class="section-body reveal d2">Over a decade of deep Bengaluru market knowledge. We don't just list properties — we craft strategies that get you the best price, the fastest close, and zero stress.</p>
+          <div class="features">
+            <div class="feat reveal d1">
+              <div class="feat-ico">⚡</div>
+              <div>
+                <div class="feat-title">Fast, Verified Listings</div>
+                <div class="feat-desc">All properties are legally verified and RERA compliant. Zero title disputes, guaranteed.</div>
+              </div>
+            </div>
+            <div class="feat reveal d2">
+              <div class="feat-ico">🎯</div>
+              <div>
+                <div class="feat-title">Personalized Matchmaking</div>
+                <div class="feat-desc">We listen first. Your lifestyle, budget and goals guide every recommendation we make.</div>
+              </div>
+            </div>
+            <div class="feat reveal d3">
+              <div class="feat-ico">🤝</div>
+              <div>
+                <div class="feat-title">End-to-End Support</div>
+                <div class="feat-desc">From first viewing to registration — we handle everything so you can just enjoy the process.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testi-section">
+    <div class="container">
+      <div style="text-align:center;max-width:560px;margin:0 auto;">
+        <span class="section-eyebrow reveal" style="justify-content:center;">Client Stories</span>
+        <h2 class="section-title reveal d1">Words That <em>Mean Everything</em></h2>
+      </div>
+      <div class="testi-grid">
+        <div class="tcard reveal">
+          <div class="tstars">★★★★★</div>
+          <p class="ttext">"Found my dream apartment in under 3 weeks. The team understood exactly what I needed — and delivered beyond expectations."</p>
+          <div class="tauthor">
+            <img class="tavatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya">
+            <div><div class="tname">Priya Menon</div><div class="trole">Software Architect · Koramangala</div></div>
+          </div>
+        </div>
+        <div class="tcard reveal d1">
+          <div class="tstars">★★★★★</div>
+          <p class="ttext">"Sold my Whitefield villa 15% above asking price. Their market analysis was spot-on. The entire process was seamless."</p>
+          <div class="tauthor">
+            <img class="tavatar" src="https://randomuser.me/api/portraits/men/52.jpg" alt="Rahul">
+            <div><div class="tname">Rahul Sharma</div><div class="trole">Entrepreneur · Whitefield</div></div>
+          </div>
+        </div>
+        <div class="tcard reveal d2">
+          <div class="tstars">★★★★★</div>
+          <p class="ttext">"As NRI investors, we needed absolute trust. Prestige handled everything remotely — documentation, walkthroughs, registration. Flawless."</p>
+          <div class="tauthor">
+            <img class="tavatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Anita">
+            <div><div class="tname">Anita Krishnan</div><div class="trole">NRI Investor · Indiranagar</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <div class="cta-banner">
+    <h2>Your Perfect Property Is <em>One Conversation Away</em></h2>
+    <button class="btn-white" onclick="showPage('contact')">Schedule Free Consultation →</button>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo-text">Prestige <span>Realty</span></div>
+          <p class="footer-tagline">Bengaluru's most trusted luxury real estate partner since 2012. Helping families and investors find their perfect space.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><button onclick="showPage('services')">Residential Sales</button></li>
+            <li><button onclick="showPage('services')">Commercial Leasing</button></li>
+            <li><button onclick="showPage('services')">Investment Advisory</button></li>
+            <li><button onclick="showPage('services')">Property Management</button></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><button onclick="showPage('about')">About Us</button></li>
+            <li><button onclick="showPage('about')">Our Team</button></li>
+            <li><button onclick="showPage('contact')">Contact</button></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Areas</h4>
+          <ul>
+            <li><button onclick="showPage('listings')">Whitefield</button></li>
+            <li><button onclick="showPage('listings')">Indiranagar</button></li>
+            <li><button onclick="showPage('listings')">Koramangala</button></li>
+            <li><button onclick="showPage('listings')">HSR Layout</button></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Prestige Realty. All rights reserved.</p>
+        <div class="socials">
+          <button class="social-btn">IG</button>
+          <button class="social-btn">in</button>
+          <button class="social-btn">fb</button>
+          <button class="social-btn">YT</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     ██ PAGE: SERVICES
+══════════════════════════════════════ -->
+<div class="page" id="page-services">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80');"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-breadcrumb"><button onclick="showPage('home')">Home</button><span>/</span><span>Services</span></div>
+      <span class="section-eyebrow">What We Do</span>
+      <h1 class="section-title" style="max-width:580px;">Comprehensive Real Estate <em>Services</em></h1>
+      <p style="font-size:15px;color:var(--text-mid);max-width:460px;margin-top:12px;line-height:1.8;">From buying your first home to building a multi-crore investment portfolio — we have the expertise for every step.</p>
+    </div>
+  </div>
+
+  <section class="service-cards-section">
+    <div class="container">
+
+      <div class="svc-big-card reveal">
+        <img class="svc-big-img" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Residential">
+        <div class="svc-big-body">
+          <div class="svc-big-icon">🏠</div>
+          <div class="svc-big-title">Residential Sales & Buying</div>
+          <p class="svc-big-desc">Whether you're buying your first home or upgrading to your dream villa, our residential specialists guide you through every step — from shortlisting to registration.</p>
+          <ul class="svc-bullets">
+            <li>Curated property shortlisting based on your lifestyle</li>
+            <li>Professional home tours and virtual walkthroughs</li>
+            <li>Price negotiation to ensure you never overpay</li>
+            <li>Legal verification and title clarity guarantee</li>
+            <li>Home loan assistance with partner banks</li>
+          </ul>
+          <button class="btn-gold" onclick="showPage('contact')">Start Your Search →</button>
+        </div>
+      </div>
+
+      <div class="svc-big-card reverse reveal">
+        <img class="svc-big-img" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80" alt="Commercial">
+        <div class="svc-big-body">
+          <div class="svc-big-icon">🏢</div>
+          <div class="svc-big-title">Commercial Leasing & Sales</div>
+          <p class="svc-big-desc">Premium office spaces, retail showrooms, and industrial warehouses across Bengaluru's top business corridors — leased or sold at market-best rates.</p>
+          <ul class="svc-bullets">
+            <li>Grade-A office spaces in IT parks and business hubs</li>
+            <li>Retail spaces in high-footfall commercial zones</li>
+            <li>Warehouses and logistics spaces on ORR & NH</li>
+            <li>Lease negotiation and CAM cost optimisation</li>
+            <li>Fit-out coordination and handover support</li>
+          </ul>
+          <button class="btn-gold" onclick="showPage('contact')">Enquire Now →</button>
+        </div>
+      </div>
+
+      <div class="svc-big-card reveal">
+        <img class="svc-big-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900&q=80" alt="Investment">
+        <div class="svc-big-body">
+          <div class="svc-big-icon">📈</div>
+          <div class="svc-big-title">Investment Advisory</div>
+          <p class="svc-big-desc">Real estate is Bengaluru's most reliable wealth creator. Our investment advisors provide data-driven insights to maximise your returns and minimise risk.</p>
+          <ul class="svc-bullets">
+            <li>Micro-market analysis and growth corridor mapping</li>
+            <li>ROI modelling for rental yield vs appreciation</li>
+            <li>Pre-launch access at developer-direct pricing</li>
+            <li>NRI investment advisory with repatriation guidance</li>
+            <li>Portfolio diversification across residential & commercial</li>
+          </ul>
+          <button class="btn-gold" onclick="showPage('contact')">Get Investment Report →</button>
+        </div>
+      </div>
+
+      <div class="svc-big-card reverse reveal">
+        <img class="svc-big-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80" alt="Property Management">
+        <div class="svc-big-body">
+          <div class="svc-big-icon">🔑</div>
+          <div class="svc-big-title">Property Management</div>
+          <p class="svc-big-desc">Own property in Bengaluru but can't manage it yourself? We handle everything — tenants, maintenance, rent collection — so your property earns while you relax.</p>
+          <ul class="svc-bullets">
+            <li>Tenant screening, placement, and agreement drafting</li>
+            <li>Monthly rent collection and owner disbursement</li>
+            <li>24/7 maintenance coordination and vendor management</li>
+            <li>Property inspection and condition reporting</li>
+            <li>Renewal negotiation and vacancy minimisation</li>
+          </ul>
+          <button class="btn-gold" onclick="showPage('contact')">Manage My Property →</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process-section">
+    <div class="container">
+      <div style="text-align:center;max-width:540px;margin:0 auto;">
+        <span class="section-eyebrow reveal" style="justify-content:center;">How It Works</span>
+        <h2 class="section-title reveal d1">Our Simple <em>5-Step</em> Process</h2>
+      </div>
+      <div class="process-steps">
+        <div class="pstep reveal">
+          <div class="pstep-num">1</div>
+          <div class="pstep-title">Consultation</div>
+          <p class="pstep-desc">Free 30-min call to understand your goals, budget, and timeline.</p>
+        </div>
+        <div class="pstep reveal d1">
+          <div class="pstep-num">2</div>
+          <div class="pstep-title">Property Search</div>
+          <p class="pstep-desc">We curate shortlisted properties matching your exact criteria.</p>
+        </div>
+        <div class="pstep reveal d2">
+          <div class="pstep-num">3</div>
+          <div class="pstep-title">Site Visits</div>
+          <p class="pstep-desc">Guided tours with expert commentary on value and potential.</p>
+        </div>
+        <div class="pstep reveal d3">
+          <div class="pstep-num">4</div>
+          <div class="pstep-title">Negotiation</div>
+          <p class="pstep-desc">We negotiate on your behalf to secure the best possible price.</p>
+        </div>
+        <div class="pstep reveal d4">
+          <div class="pstep-num">5</div>
+          <div class="pstep-title">Handover</div>
+          <p class="pstep-desc">Legal checks, registration, and key handover — fully managed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing-section">
+    <div class="container">
+      <div style="text-align:center;max-width:540px;margin:0 auto;">
+        <span class="section-eyebrow reveal" style="justify-content:center;">Transparent Pricing</span>
+        <h2 class="section-title reveal d1">Simple, <em>Honest</em> Fees</h2>
+        <p class="section-body reveal d2" style="margin:0 auto;">No hidden charges. No surprise deductions. Just straightforward pricing tied to your success.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pcard reveal">
+          <div class="pcard-icon">🏠</div>
+          <div class="pcard-title">Buyer's Package</div>
+          <div class="pcard-price">FREE <span>/ for buyers</span></div>
+          <ul class="pcard-features">
+            <li><span class="check">✓</span> Unlimited property search</li>
+            <li><span class="check">✓</span> Site visit coordination</li>
+            <li><span class="check">✓</span> Price negotiation support</li>
+            <li><span class="check">✓</span> Legal verification</li>
+            <li><span class="check">✓</span> Home loan assistance</li>
+          </ul>
+          <button class="btn-gold" onclick="showPage('contact')">Get Started →</button>
+        </div>
+        <div class="pcard featured reveal d1">
+          <div class="pcard-badge">Most Popular</div>
+          <div class="pcard-icon">📈</div>
+          <div class="pcard-title">Seller's Package</div>
+          <div class="pcard-price">2% <span>/ of sale value</span></div>
+          <ul class="pcard-features">
+            <li><span class="check">✓</span> Professional photography</li>
+            <li><span class="check">✓</span> Multi-platform listing</li>
+            <li><span class="check">✓</span> Qualified buyer screening</li>
+            <li><span class="check">✓</span> Expert price optimisation</li>
+            <li><span class="check">✓</span> Full legal & documentation</li>
+          </ul>
+          <button class="btn-white" style="width:100%;padding:14px;" onclick="showPage('contact')">List My Property →</button>
+        </div>
+        <div class="pcard reveal d2">
+          <div class="pcard-icon">🔑</div>
+          <div class="pcard-title">Management Package</div>
+          <div class="pcard-price">8% <span>/ monthly rent</span></div>
+          <ul class="pcard-features">
+            <li><span class="check">✓</span> Tenant sourcing & placement</li>
+            <li><span class="check">✓</span> Rent collection & remittance</li>
+            <li><span class="check">✓</span> Maintenance management</li>
+            <li><span class="check">✓</span> Monthly statements</li>
+            <li><span class="check">✓</span> Lease renewal support</li>
+          </ul>
+          <button class="btn-gold" onclick="showPage('contact')">Start Managing →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <h2>Not Sure Which Service You Need? <em>Let's Talk.</em></h2>
+    <button class="btn-white" onclick="showPage('contact')">Book Free Consultation →</button>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div><div class="footer-logo-text">Prestige <span>Realty</span></div><p class="footer-tagline">Bengaluru's most trusted luxury real estate partner since 2012.</p></div>
+        <div class="footer-col"><h4>Services</h4><ul><li><button onclick="showPage('services')">Residential Sales</button></li><li><button onclick="showPage('services')">Commercial Leasing</button></li><li><button onclick="showPage('services')">Investment Advisory</button></li></ul></div>
+        <div class="footer-col"><h4>Company</h4><ul><li><button onclick="showPage('about')">About Us</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div>
+        <div class="footer-col"><h4>Listings</h4><ul><li><button onclick="showPage('listings')">All Properties</button></li><li><button onclick="showPage('listings')">Whitefield</button></li><li><button onclick="showPage('listings')">Indiranagar</button></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Prestige Realty. All rights reserved.</p><div class="socials"><button class="social-btn">IG</button><button class="social-btn">in</button><button class="social-btn">fb</button></div></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     ██ PAGE: LISTINGS
+══════════════════════════════════════ -->
+<div class="page" id="page-listings">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1448630360428-65456885c650?w=1600&q=80');"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-breadcrumb"><button onclick="showPage('home')">Home</button><span>/</span><span>Listings</span></div>
+      <span class="section-eyebrow">Properties</span>
+      <h1 class="section-title">Browse Our <em>Curated</em> Listings</h1>
+      <p style="font-size:15px;color:var(--text-mid);max-width:460px;margin-top:12px;line-height:1.8;">Over 120 verified properties across Bengaluru's most sought-after neighbourhoods.</p>
+    </div>
+  </div>
+
+  <section class="listings-page">
+    <div class="container">
+      <div class="listings-filter reveal">
+        <span class="filter-label">Filter:</span>
+        <div class="filter-tabs">
+          <button class="ftab active" onclick="setFilter(this)">All</button>
+          <button class="ftab" onclick="setFilter(this)">Apartments</button>
+          <button class="ftab" onclick="setFilter(this)">Villas</button>
+          <button class="ftab" onclick="setFilter(this)">Penthouses</button>
+          <button class="ftab" onclick="setFilter(this)">Commercial</button>
+          <button class="ftab" onclick="setFilter(this)">For Rent</button>
+        </div>
+      </div>
+      <div class="listings-full-grid">
+        <div class="lcard-full reveal">
+          <div class="lcard-img-wrap"><img class="lcard-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80" alt=""><span class="lcard-tag">Featured</span></div>
+          <div class="lcard-body"><div class="lcard-title">Whitefield Grand Villa</div><div class="lcard-loc">📍 Whitefield, Bengaluru</div><div class="lcard-price">₹4.2 Cr</div><div class="lcard-meta"><span>🛏 5 Beds</span><span>🛁 4 Baths</span><span>📐 4,800 sqft</span></div></div>
+        </div>
+        <div class="lcard-full reveal d1">
+          <div class="lcard-img-wrap"><img class="lcard-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80" alt=""><span class="lcard-tag new">New</span></div>
+          <div class="lcard-body"><div class="lcard-title">Indiranagar Sky Apartment</div><div class="lcard-loc">📍 Indiranagar</div><div class="lcard-price">₹1.8 Cr</div><div class="lcard-meta"><span>🛏 3 Beds</span><span>🛁 2 Baths</span><span>📐 2,100 sqft</span></div></div>
+        </div>
+        <div class="lcard-full reveal d2">
+          <div class="lcard-img-wrap"><img class="lcard-img" src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=700&q=80" alt=""><span class="lcard-tag">Prime</span></div>
+          <div class="lcard-body"><div class="lcard-title">Koramangala Penthouse</div><div class="lcard-loc">📍 Koramangala</div><div class="lcard-price">₹3.6 Cr</div><div class="lcard-meta"><span>🛏 4 Beds</span><span>🛁 3 Baths</span><span>📐 3,400 sqft</span></div></div>
+        </div>
+        <div class="lcard-full reveal">
+          <div class="lcard-img-wrap"><img class="lcard-img" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80" alt=""><span class="lcard-tag rent">For Rent</span></div>
+          <div class="lcard-body"><div class="lcard-title">HSR Layout Premium Apartment</div><div class="lcard-loc">📍 HSR Layout</div><div class="lcard-price">₹65,000 <span style="font-size:14px;font-weight:400;color:var(--text-muted);">/mo</span></div><div class="lcard-meta"><span>🛏 3 Beds</span><span>🛁 2 Baths</span><span>📐 1,900 sqft</span></div></div>
+        </div>
+        <div class="lcard-full reveal d1">
+          <div class="lcard-img-wrap"><img class="lcard-img" src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=700&q=80" alt=""></div>
+          <div class="lcard-body"><div class="lcard-title">Sarjapur Luxury Bungalow</div><div class="lcard-loc">📍 Sarjapur Road</div><div class="lcard-price">₹2.9 Cr</div><div class="lcard-meta"><span>🛏 4 Beds</span><span>🛁 3 Baths</span><span>📐 3,200 sqft</span></div></div>
+        </div>
+        <div class="lcard-full reveal d2">
+          <div class="lcard-img-wrap"><img class="lcard-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80" alt=""><span class="lcard-tag new">New Launch</span></div>
+          <div class="lcard-body"><div class="lcard-title">Yelahanka North Residences</div><div class="lcard-loc">📍 Yelahanka</div><div class="lcard-price">₹95 L</div><div class="lcard-meta"><span>🛏 2 Beds</span><span>🛁 2 Baths</span><span>📐 1,200 sqft</span></div></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:52px;">
+        <button class="btn-outline-gold" onclick="showPage('contact')">Can't Find What You Need? Talk to Us →</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <h2>Get <em>Exclusive Access</em> to Off-Market Listings</h2>
+    <button class="btn-white" onclick="showPage('contact')">Register Now →</button>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div><div class="footer-logo-text">Prestige <span>Realty</span></div><p class="footer-tagline">Bengaluru's most trusted luxury real estate partner since 2012.</p></div>
+        <div class="footer-col"><h4>Services</h4><ul><li><button onclick="showPage('services')">Buy</button></li><li><button onclick="showPage('services')">Sell</button></li><li><button onclick="showPage('services')">Invest</button></li></ul></div>
+        <div class="footer-col"><h4>Company</h4><ul><li><button onclick="showPage('about')">About</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div>
+        <div class="footer-col"><h4>Areas</h4><ul><li><button onclick="showPage('listings')">Whitefield</button></li><li><button onclick="showPage('listings')">Indiranagar</button></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Prestige Realty. All rights reserved.</p><div class="socials"><button class="social-btn">IG</button><button class="social-btn">in</button></div></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     ██ PAGE: ABOUT
+══════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1577495508048-b635879837f1?w=1600&q=80');"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-breadcrumb"><button onclick="showPage('home')">Home</button><span>/</span><span>About</span></div>
+      <span class="section-eyebrow">Our Story</span>
+      <h1 class="section-title">Built on <em>Trust</em>,<br>Driven by Results</h1>
+    </div>
+  </div>
+
+  <section class="about-story">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-imgs reveal">
+          <img class="about-img-main" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80" alt="Team">
+          <img class="about-img-sm" src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&q=80" alt="Office">
+        </div>
+        <div>
+          <span class="section-eyebrow reveal">Who We Are</span>
+          <h2 class="section-title reveal d1">12 Years of Transforming <em>Property Dreams</em></h2>
+          <p class="section-body reveal d2" style="margin-bottom:20px;">Founded in 2012 by Bengaluru natives who were frustrated by opaque real estate transactions, Prestige Realty was built on one simple promise: complete honesty, every time.</p>
+          <p class="section-body reveal d2">Today, we're a team of 45 specialists across residential, commercial, investment, and legal services — united by a shared commitment to making your property journey the best it's ever been.</p>
+          <div class="about-quote reveal d3">
+            <p>"Real estate isn't about transactions. It's about helping people find where they belong."</p>
+            <cite>— Arjun Nair, Founder & CEO</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="container">
+      <div style="text-align:center;max-width:500px;margin:0 auto;">
+        <span class="section-eyebrow reveal" style="justify-content:center;">The Team</span>
+        <h2 class="section-title reveal d1">Meet the <em>Experts</em> Behind Every Deal</h2>
+      </div>
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <img class="team-img" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Arjun">
+          <div class="team-body"><div class="team-name">Arjun Nair</div><div class="team-role">Founder & CEO</div><div class="team-desc">12+ years shaping Bengaluru's luxury real estate market.</div></div>
+        </div>
+        <div class="team-card reveal d1">
+          <img class="team-img" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Kavya">
+          <div class="team-body"><div class="team-name">Kavya Reddy</div><div class="team-role">Head of Residential</div><div class="team-desc">300+ successful residential transactions across the city.</div></div>
+        </div>
+        <div class="team-card reveal d2">
+          <img class="team-img" src="https://randomuser.me/api/portraits/men/55.jpg" alt="Vikram">
+          <div class="team-body"><div class="team-name">Vikram Iyer</div><div class="team-role">Investment Director</div><div class="team-desc">Former banker with deep expertise in real estate ROI.</div></div>
+        </div>
+        <div class="team-card reveal d3">
+          <img class="team-img" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Pooja">
+          <div class="team-body"><div class="team-name">Pooja Sharma</div><div class="team-role">Legal Head</div><div class="team-desc">Property lawyer with 0% client dispute record in 8 years.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="awards-section">
+    <div class="container">
+      <div style="text-align:center;max-width:500px;margin:0 auto;">
+        <span class="section-eyebrow reveal" style="justify-content:center;">Recognition</span>
+        <h2 class="section-title reveal d1">Awards & <em>Accolades</em></h2>
+      </div>
+      <div class="awards-grid">
+        <div class="award-card reveal"><div class="award-year">2024</div><div class="award-title">Best Luxury Realty</div><div class="award-org">Bengaluru Realty Awards</div></div>
+        <div class="award-card reveal d1"><div class="award-year">2023</div><div class="award-title">Top NRI Advisor</div><div class="award-org">India Property Awards</div></div>
+        <div class="award-card reveal d2"><div class="award-year">2022</div><div class="award-title">5-Star Service Award</div><div class="award-org">CREDAI Karnataka</div></div>
+        <div class="award-card reveal d3"><div class="award-year">2021</div><div class="award-title">Best Commercial Agency</div><div class="award-org">ET Realty Awards</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <h2>Ready to Work With <em>Bengaluru's Best?</em></h2>
+    <button class="btn-white" onclick="showPage('contact')">Let's Get Started →</button>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div><div class="footer-logo-text">Prestige <span>Realty</span></div><p class="footer-tagline">Bengaluru's most trusted luxury real estate partner since 2012.</p></div>
+        <div class="footer-col"><h4>Services</h4><ul><li><button onclick="showPage('services')">Our Services</button></li><li><button onclick="showPage('listings')">Browse Listings</button></li></ul></div>
+        <div class="footer-col"><h4>Company</h4><ul><li><button onclick="showPage('about')">About</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div>
+        <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">LinkedIn</a></li><li><a href="#">Instagram</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Prestige Realty. All rights reserved.</p></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     ██ PAGE: CONTACT
+══════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600&q=80');"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-breadcrumb"><button onclick="showPage('home')">Home</button><span>/</span><span>Contact</span></div>
+      <span class="section-eyebrow">Get In Touch</span>
+      <h1 class="section-title">Your Dream Home Is<br><em>One Call Away</em></h1>
+    </div>
+  </div>
+
+  <section class="contact-page">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <h2 class="section-title" style="margin-bottom:8px;">Let's Start a <em>Conversation</em></h2>
+          <p style="font-size:15px;color:var(--text-mid);line-height:1.8;margin-bottom:12px;">No pressure. No hard sell. Just honest advice tailored to your goals.</p>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📞</div>
+            <div><div class="contact-info-label">Call Us</div><div class="contact-info-value">+91 98765 43210</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Mon–Sat, 9am–7pm</div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">✉️</div>
+            <div><div class="contact-info-label">Email</div><div class="contact-info-value">hello@prestigerealty.in</div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📍</div>
+            <div><div class="contact-info-label">Office</div><div class="contact-info-value">100 MG Road, Bengaluru 560001</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Near Trinity Metro Station</div></div>
+          </div>
+          <div class="contact-info-item" style="border-bottom:none;">
+            <div class="contact-info-icon">💬</div>
+            <div><div class="contact-info-label">WhatsApp</div><div class="contact-info-value">+91 98765 43210</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Quick responses, 7 days a week</div></div>
+          </div>
+        </div>
+        <div class="contact-form-card reveal d1">
+          <h3>Schedule Free Consultation</h3>
+          <p>Fill in your details and our expert will call you within 2 hours.</p>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Arjun"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Nair"></div>
+          </div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 98765 43210"></div>
+          <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@email.com"></div>
+          <div class="form-group">
+            <label>I'm Looking To</label>
+            <select>
+              <option>Buy a Property</option>
+              <option>Sell My Property</option>
+              <option>Invest in Real Estate</option>
+              <option>Rent a Property</option>
+              <option>Get Property Managed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Budget Range</label>
+            <select>
+              <option>Under ₹50L</option>
+              <option>₹50L – ₹1 Cr</option>
+              <option>₹1 – 2 Cr</option>
+              <option>₹2 – 4 Cr</option>
+              <option>Above ₹4 Cr</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message</label><textarea rows="3" placeholder="Tell us what you're looking for…"></textarea></div>
+          <button class="form-submit" onclick="handleSubmit(this)">Request Free Consultation →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="map-section">
+    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1400&q=60" alt="Map">
+    <div class="map-pin">📍 Prestige Realty, MG Road Bengaluru</div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div><div class="footer-logo-text">Prestige <span>Realty</span></div><p class="footer-tagline">Bengaluru's most trusted luxury real estate partner since 2012.</p></div>
+        <div class="footer-col"><h4>Services</h4><ul><li><button onclick="showPage('services')">Our Services</button></li><li><button onclick="showPage('listings')">Listings</button></li></ul></div>
+        <div class="footer-col"><h4>Company</h4><ul><li><button onclick="showPage('about')">About</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div>
+        <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">LinkedIn</a></li><li><a href="#">Instagram</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Prestige Realty. All rights reserved.</p></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+// ── PAGE NAVIGATION ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('nav-' + name);
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(initReveal, 100);
+}
+
+// ── SCROLL REVEAL ──
+function initReveal() {
+  const els = document.querySelectorAll('#page-' + currentPage() + ' .reveal:not(.visible)');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+}
+function currentPage() {
+  const active = document.querySelector('.page.active');
+  return active ? active.id.replace('page-', '') : 'home';
+}
+setTimeout(initReveal, 200);
+
+// ── FILTER TABS ──
+function setFilter(el) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── FORM SUBMIT ──
+function handleSubmit(btn) {
+  btn.textContent = '✓ Submitted! We\'ll call you within 2 hours.';
+  btn.style.background = '#2D7D46';
+  btn.disabled = true;
+}
+</script>
+</body>
+</html>
